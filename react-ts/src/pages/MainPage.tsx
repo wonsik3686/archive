@@ -5,6 +5,7 @@ function MainPage() {
     <>
       <h1>MainPage</h1>
       <Link to="articles">Articles</Link>
+      <Link to="login">Login</Link>
     </>
   );
 }
