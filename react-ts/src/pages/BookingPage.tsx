@@ -1,19 +1,29 @@
-import { useForm } from 'react-hook-form';
+import { useForm, ControllerRenderProps } from 'react-hook-form';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from '../components/ui/card';
+} from '../components/ui/Card';
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '../components/ui/form';
+} from '../components/ui/Form';
+
+interface BookingFormValues {
+  name: string;
+}
+
 function BookingPage() {
-  const { control, handleSubmit } = useForm();
+  const form = useForm<BookingFormValues>();
+  const { control } = form;
+
+  const onSubmit = (data: BookingFormValues) => {
+    console.log(data);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -23,12 +33,24 @@ function BookingPage() {
           <CardTitle>인원/좌석</CardTitle>
         </CardHeader>
         <CardContent>
-          <Form>
-            <FormField
-              control={control}
-              name="name"
-              render={({ field }) => <Input {...field} />}
-            />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={control}
+                name="name"
+                render={({
+                  field,
+                }: {
+                  field: ControllerRenderProps<BookingFormValues, 'name'>;
+                }) => (
+                  <FormItem>
+                    <FormLabel>이름</FormLabel>
+                    <input {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
           </Form>
         </CardContent>
       </Card>
